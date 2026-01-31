@@ -19,6 +19,10 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          # Install ImageMagick to handle image resizing
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          
           npm install -g cordova
           npm install -g cordova-res
 
@@ -28,21 +32,26 @@ jobs:
           cd myapp
           cordova platform add android
 
-      - name: Setup Resources (Icon)
+      - name: Setup Resources (Validation Hack)
         run: |
           mkdir -p myapp/resources
           cp resources/icon.png myapp/resources/icon.png
           
-          # Generate icons (Legacy and Adaptive)
+          # TRICK: Create a temporary upscaled version (2732px) just to satisfy the tool
+          # This prevents the "Missing Image" AND "Resolution" errors
+          convert resources/splash.png -resize 2732x2732! myapp/resources/splash.png
+          
+          # Now run the tool (It will pass because it sees a big image)
           cd myapp
           cordova-res android --icon
 
-      - name: Setup Splash Screen (Blue Background Fix)
+      - name: Setup Real Splash Screen (Manual Override)
         run: |
           # 1. Create the Android drawable folder
           mkdir -p myapp/platforms/android/app/src/main/res/drawable
           
-          # 2. Copy your CROPPED splash image to the system folder
+          # 2. Copy the ORIGINAL (Crisp 1179px) splash image
+          # We copy from the root 'resources' folder, NOT the upscaled one
           cp resources/splash.png myapp/platforms/android/app/src/main/res/drawable/mysplash.png
           
           # 3. Inject settings: Point to image AND set Blue Background (#0c2c4a)
