@@ -1,0 +1,61 @@
+name: Build ResistorHub APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: |
+          npm install -g cordova
+          npm install -g cordova-res
+
+      - name: Create Cordova Project
+        run: |
+          # Syntax: cordova create [folder] [package_id] [App Name]
+          # CHANGED: App Name is now ResistorHub
+          cordova create myapp com.resistorhub.app ResistorHub
+          
+          cd myapp
+          cordova platform add android
+
+      - name: Setup Resources (Icon & Splash)
+        run: |
+          mkdir -p myapp/resources
+          
+          # Copy images from your repo 'resources' folder
+          cp resources/icon.png myapp/resources/icon.png
+          cp resources/splash.png myapp/resources/splash.png
+          
+          # Generate icons
+          cd myapp
+          cordova-res android --skip-config --copy
+
+      - name: Setup Website Files
+        run: |
+          rm -rf myapp/www/*
+          # Copy your repo 'www' folder contents into the app
+          cp -r www/* myapp/www/
+
+      - name: Build APK (Debug)
+        run: |
+          cd myapp
+          cordova build android --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ResistorHub-APK
+          path: myapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
