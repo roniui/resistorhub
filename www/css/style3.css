@@ -1,0 +1,154 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #122028;
+    color: #f5f5f5;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 93vh;
+    padding: 0 20px;
+}
+#main-1 {
+    flex: 1; /* Ensures content takes up available space */
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 10px;
+  color: white;
+  text-decoration: white;
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+    
+}
+
+#bands-1 {
+    width: 100%;
+    text-align: center;
+}
+
+#bandhtml-1 {
+    background-color: #0c2c4a;
+    color: white;      
+    text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #218b17;
+}
+
+.color-selector-1 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+select {
+    width: 120px;
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+    border-radius: 50px;
+    background-color: #FBF0D9;
+    border: none;
+}
+
+.resistor-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+    position: relative; /* Ensure it acts as a reference for absolute positioning */
+}
+
+.resistor-body-1 {
+    width: 200px;
+    height: 60px;
+    position: relative;
+}
+
+.resistor-body-1::after {
+    content: "";
+    position: absolute;
+    top: -39%;
+    left: -31%;
+    width: 160%;
+    height: 160%;
+    background: url('../icons/resbody1.png') no-repeat center;
+    background-size: contain;
+    z-index: 10; /* Ensure it's above the bands */
+    pointer-events: none; /* Allow interaction with bands */
+}
+
+.band-1 {
+    position: absolute;
+    width: 15px;
+    height: 53px;
+    top: -2px;
+    border-radius: 1px;    z-index: 5; /* Lower than the image */
+}
+
+/* Band positioning */
+.band-1:nth-child(1) { left: 32px; background: brown; }
+.band-1:nth-child(2) { left: 53px; background: black; }
+.band-1:nth-child(3) { left: 78px; background: red; }
+.band-1:nth-child(4) { left: 145px; background: yellow; }
+
+#calcSaveBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+#result-1 {
+    font-weight: bold;
+    margin: 65px;
+}
+
+.button-container-1 {
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+.small-screen-warning {
+    display: none;
+    background-color: #ffcccc;
+    color: #800000;
+    padding: 10px;
+    border: 1px solid #ff0000;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 100px;
+    border-radius: 5px;
+}
+
+@media (max-width: 250px) {
+    .small-screen-warning {
+        display: block;  /* Show the message */
+    }
+    main {
+        display: none;
+    }
+    .footer {
+        display: none;
+    }
+    #band5html {
+        display: none;   
+    }
+    
+    }        
+    
+    
+    html {
+    scroll-behavior: smooth;
+    }
