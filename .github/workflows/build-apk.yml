@@ -28,17 +28,29 @@ jobs:
           cd myapp
           cordova platform add android
 
-      - name: Setup Resources (Icon & Splash)
+      - name: Setup Resources (Icon)
         run: |
           mkdir -p myapp/resources
-          
-          # Copy your pre-sized images into the cordova project
           cp resources/icon.png myapp/resources/icon.png
-          cp resources/splash.png myapp/resources/splash.png
           
-          # Generate icons and update config.xml
+          # Generate icons (Legacy and Adaptive)
           cd myapp
-          cordova-res android
+          cordova-res android --icon
+
+      - name: Setup Splash Screen (Blue Background Fix)
+        run: |
+          # 1. Create the Android drawable folder
+          mkdir -p myapp/platforms/android/app/src/main/res/drawable
+          
+          # 2. Copy your CROPPED splash image to the system folder
+          cp resources/splash.png myapp/platforms/android/app/src/main/res/drawable/mysplash.png
+          
+          # 3. Inject settings: Point to image AND set Blue Background (#0c2c4a)
+          cd myapp
+          sed -i 's|<platform name="android">|<platform name="android">\n        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="@drawable/mysplash" />\n        <preference name="AndroidWindowSplashScreenBackground" value="#0c2c4a" />|' config.xml
+          
+          # Add delay
+          sed -i '/<\/widget>/i \    <preference name="SplashScreenDelay" value="3000" />' config.xml
 
       - name: Setup Website Files
         run: |
