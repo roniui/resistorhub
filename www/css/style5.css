@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #122028;
+    color: #f5f5f5;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 93vh;
+    padding: 0 20px;
+}
+header {
+    width: 100%;
+    background-color: #122028;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 24px;
+    color: #dfdfdf;
+    position: relative; /* Adjusted to not overlap content */
+    z-index: 1000;
+    height: 30px;
+}
+ header a {
+     color: white;
+    text-decoration: none;
+ }
+
+#main-2 {
+    flex: 1; /* Ensures content takes up available space */
+}
+
+#bands-2 {
+    width: 100%;
+    text-align: center;
+}
+
+#bandhtml-2 {
+    background-color: #0c2c4a;
+    color: white;      
+    text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: #218b17;
+}
+
+.color-selector-2 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+select {
+    width: 120px;
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+    border-radius: 50px;
+    background-color: #FBF0D9;
+    border: none;
+}
+
+.resistor-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+    position: relative; /* Ensure it acts as a reference for absolute positioning */
+}
+
+.resistor-body-2 {
+    width: 200px;
+    height: 60px;
+    position: relative;
+}
+
+.resistor-body-2::after {
+    content: "";
+    position: absolute;
+    top: -39%;
+    left: -31%;
+    width: 160%;
+    height: 160%;
+    background: url('../icons/resbody2.png') no-repeat center;
+    background-size: contain;
+    z-index: 10; /* Ensure it's above the bands */
+    pointer-events: none; /* Allow interaction with bands */
+}
+
+.band-2 {
+    position: absolute;
+    width: 15px;
+    height: 53px;
+    top: -2px;
+    border-radius: 1px;    z-index: 5; /* Lower than the image */
+}
+
+/* Band positioning */
+.band-2:nth-child(1) { left: 28px; background: brown; }
+.band-2:nth-child(2) { left: 53px; background: black; }
+.band-2:nth-child(3) { left: 78px; background: red; }
+.band-2:nth-child(4) { left: 99px; background: yellow; }
+.band-2:nth-child(5) { left: 150px; background: yellow; }
+
+#result-2 {
+    font-weight: bold;
+    margin: 50px;
+}
+
+.button-container-2 {
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
