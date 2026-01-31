@@ -19,10 +19,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          # Install ImageMagick to handle image resizing
           sudo apt-get update
           sudo apt-get install -y imagemagick
-          
           npm install -g cordova
           npm install -g cordova-res
 
@@ -37,29 +35,30 @@ jobs:
           mkdir -p myapp/resources
           cp resources/icon.png myapp/resources/icon.png
           
-          # TRICK: Create a temporary upscaled version (2732px) just to satisfy the tool
-          # This prevents the "Missing Image" AND "Resolution" errors
+          # 1. Trick cordova-res with a big image so it generates ICONS successfully
           convert resources/splash.png -resize 2732x2732! myapp/resources/splash.png
           
-          # Now run the tool (It will pass because it sees a big image)
+          # 2. Generate ONLY icons (We skip splash generation to avoid adding broken tags)
           cd myapp
           cordova-res android --icon
 
-      - name: Setup Real Splash Screen (Manual Override)
+      - name: Setup Real Splash Screen
         run: |
-          # 1. Create the Android drawable folder
-          mkdir -p myapp/platforms/android/app/src/main/res/drawable
+          # 3. Overwrite the fake image with your REAL 1179px image
+          # We place it in the project root resources folder where Cordova expects it
+          cp resources/splash.png myapp/resources/splash.png
           
-          # 2. Copy the ORIGINAL (Crisp 1179px) splash image
-          # We copy from the root 'resources' folder, NOT the upscaled one
-          cp resources/splash.png myapp/platforms/android/app/src/main/res/drawable/mysplash.png
-          
-          # 3. Inject settings: Point to image AND set Blue Background (#0c2c4a)
           cd myapp
-          sed -i 's|<platform name="android">|<platform name="android">\n        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="@drawable/mysplash" />\n        <preference name="AndroidWindowSplashScreenBackground" value="#0c2c4a" />|' config.xml
           
-          # Add delay
-          sed -i '/<\/widget>/i \    <preference name="SplashScreenDelay" value="3000" />' config.xml
+          # 4. REMOVE old broken <splash> tags if they exist
+          sed -i '/<splash/d' config.xml
+          
+          # 5. Add the correct Android 12 preferences
+          # Note: We point to 'resources/splash.png', NOT '@drawable'
+          sed -i 's|<platform name="android">|<platform name="android">\n        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash.png" />\n        <preference name="AndroidWindowSplashScreenBackground" value="#0c2c4a" />|' config.xml
+          
+          # 6. Add delay preference
+          sed -i '/<\/widget>/i \    <preference name="SplashScreenDelay" value="1000" />' config.xml
 
       - name: Setup Website Files
         run: |
