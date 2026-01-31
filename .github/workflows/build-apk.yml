@@ -22,12 +22,6 @@ jobs:
           npm install -g cordova
           npm install -g cordova-res
 
-      - name: Fix Splash Image Size
-        run: |
-          # Force images to be the correct size and square to prevent errors
-          convert resources/splash.png -background white -gravity center -extent 2732x2732 resources/splash.png
-          convert resources/icon.png -background white -gravity center -extent 1024x1024 resources/icon.png
-
       - name: Create Cordova Project
         run: |
           cordova create myapp com.resistorhub.app ResistorHub
@@ -38,12 +32,11 @@ jobs:
         run: |
           mkdir -p myapp/resources
           
-          # Copy images to the project folder
+          # Copy your pre-sized images into the cordova project
           cp resources/icon.png myapp/resources/icon.png
           cp resources/splash.png myapp/resources/splash.png
           
-          # Generate icons AND update config.xml
-          # We removed --skip-config so it actually saves the settings now
+          # Generate icons and update config.xml
           cd myapp
           cordova-res android
 
