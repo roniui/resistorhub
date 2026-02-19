@@ -18,7 +18,9 @@
   <a href="https://github.com/roniui/resistorhub-app/releases/latest">
     <img src="https://img.shields.io/badge/Download_Latest_APK-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
   </a>
-  
+  <a href="https://roniui.github.io/resistor/">
+    <img src="https://img.shields.io/badge/Website-Visit_Site-blue?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Visit Website">
+  </a>
 </div>
 
 ---
@@ -30,7 +32,6 @@
 ## 🚀 Features
 
 * **100% Offline:** No internet connection required. Works flawlessly in the workshop or on the go.
-* **Zero Friction:** No logins, no accounts, no trackers. Just open the app and calculate.
 * **Color Code Calculator:** Quickly determine the resistance values of 3, 4, and 5-band resistors.
 
 ## 📱 How to Install (Android)
